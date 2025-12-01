@@ -1,0 +1,54 @@
+AWS EC2 + Docker Deployment — FULL MERGED
+ GUIDE (Large Font + Bold Steps)
+ Step 1 — Connect from Your Laptop (PowerShell)
+ Use this command to connect to your EC2 Ubuntu instance.
+ ssh -i "C:/Users/kaspa/.ssh/KASPA.pem" ubuntu@
+ Replace with your instance's Public IPv4 address.
+ Step 2 — Update Your EC2 Server
+ Refresh the package index so the server installs software correctly.
+ sudo apt update -y
+ Step 3 — Install Docker + Essentials
+ Install Docker, Git, and Nano editor on EC2.
+ sudo apt install -y docker.io git nano
+ sudo systemctl start docker
+ sudo systemctl enable docker
+ Enables Docker to start on system boot.
+ Step 4 — Create Your Project Folder
+ Make a directory to store your web files and enter it.
+ mkdir aws-webapp && cd aws-webapp
+ Step 5 — Create index.html
+ Your website homepage. Shown when you open EC2-IP in browser.
+ nano index.html
+ (paste this text inside)
+Hello from AWS
+ Save: CTRL+O → Enter → CTRL+X
+ Step 6 — Create the Dockerfile
+ Defines how your Docker image will be built.
+ nano Dockerfile
+ (paste this)
+ FROM nginx:alpine
+ COPY index.html /usr/share/nginx/html/index.html
+ Nginx always looks inside /usr/share/nginx/html/ for index.html.
+ Step 7 — Build the Docker Image
+ Build your custom NGINX-based web image.
+ sudo docker build -t mywebapp .
+ Step 8 — Run the Web Container on Port 80
+ Port 80 is the default web port for HTTP.
+ sudo docker run -d -p 80:80 mywebapp
+ Step 9 — Verify the Container Is Running
+ Ensure your site container is active and port mapping is correct.
+ sudo docker ps
+ Should show → 0.0.0.0:80 -> 80/tcp
+ Step 10 — View the Website in Your Browser
+ Enter your EC2 Public IPv4 in browser:
+ http://
+Should display: Hello from AWS
+ Optional — Stop or Remove Containers
+ Useful for cleanup or re-deployment.
+ sudo docker stop
+ sudo docker rm
+ Use docker ps to find the ID.
+ Important Security Reminder
+ Your EC2 security group MUST allow HTTP traffic.
+ Allow inbound rule: HTTP (port 80) — Source: 0.0.0.0/0
+ This makes your website accessible publicly.
