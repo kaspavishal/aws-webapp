@@ -1,0 +1,63 @@
+KUBERNETES + MINIKUBE PRACTICAL EXAM – COMPLETE COMMANDS & EXPECTED
+ OUTPUTS
+ 1) START MINIKUBE
+ Command:
+ minikube start
+ Expected Output:- Host: Running- Kubelet: Running- Kubeconfig: Configured
+ 2) CHECK NODE
+ Command:
+ kubectl get nodes
+ Expected Output:- NAME = minikube- STATUS = Ready
+ 3) CREATE DEPLOYMENT (NGINX)
+ Command:
+ kubectl create deployment myngnix --image=nginx
+ Expected Output:
+ deployment.apps/myngnix created
+ 4) CHECK POD
+ Command:
+ kubectl get pods
+ Expected Output:- 1 pod Running, READY 1/1
+5) EXPOSE DEPLOYMENT AS NODEPORT
+ Command:
+ kubectl expose deployment myngnix --type=NodePort --port=80 --target-port=80 --name=myngnix
+ Expected Output:
+ service/myngnix exposed
+ 6) CHECK SERVICE + NODEPORT
+ Command:
+ kubectl get service myngnix
+ Expected Output:- TYPE = NodePort- PORT(S) = 80:3xxxx/TCP
+ 7) PORT-FORWARD (WINDOWS FRIENDLY)
+ Command:
+ kubectl port-forward service/myngnix 30080:80
+ Expected Output:
+ Forwarding from 127.0.0.1:30080 → 80
+ 8) OPEN IN BROWSER
+ URL:
+ http://localhost:30080
+ Expected Output:
+ ”Welcome to nginx!” webpage
+ 9) OPEN KUBERNETES DASHBOARD
+ Command:
+ minikube dashboard
+Expected Output:- See pods, deployments, services visually
+ 10) SCALE DEPLOYMENT (OPTIONAL)
+ Command:
+ kubectl scale deployment myngnix --replicas=4
+ Expected Output:
+ 4 pods Running (kubectl get pods)
+ 11) DELETE DEPLOYMENT & SERVICE
+ Commands:
+ kubectl delete service myngnix
+ kubectl delete deployment myngnix
+ Expected Output:
+ service deleted
+ deployment deleted
+ 12) STOP MINIKUBE
+ Command:
+ minikube stop
+ Expected Output:
+ 1 node stopped
+ IMPORTANT: WHAT TO SHOW EXAMINER
+ 1) kubectl get pods → Running nginx pod
+ 2) kubectl get service myngnix → NodePort assigned
+ 3) Browser showing nginx webpage
